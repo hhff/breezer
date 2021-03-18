@@ -1,13 +1,62 @@
 ---
 layout: layouts/home.njk
-tags:
-  - nav
 navtitle: Home
 ---
 
-<h1>Latest Posts</h1>
-
 {% set postslist = collections.myPosts %}
-{% include "postslist.njk" %}
 
-<p>More posts can be found in <a href="{{ '/posts/' | url }}">the archive</a>.</p>
+<header>
+  <a class="about" href="/about"><h2>About</h2></a>
+  <div class="projects" role="button"><h2>Projects</h2></div>
+  <img class="mark" src="https://europeanreviewofbooks.com/public/europa_t.png"/>
+  <h2 class="cloud">
+    {% for post in postslist | reverse %}{% set currentPost = post.data.post %}{% if currentPost.featureInJumpNav %}<a href="#{{ currentPost.slug.current }}" class="postlist-link">{% if loop.index != 1 %}, {% endif %}<span class="project-link">{{ currentPost.title }}</span</a>{% endif %}{% endfor %}
+  </h2>
+</header>
+
+<main>
+  {% for post in postslist | reverse %}
+    {% set currentPost = post.data.post %}
+    <section>
+      <div class="info-container">
+        <div class="info">
+          <h2 class="title" id="{{ currentPost.slug.current }}">{{ currentPost.title }}</h2>
+          {% if currentPost.description %}
+            <p class="description">{{ currentPost.description }}</p>
+          {% endif %}
+          {% if currentPost.studio %}
+            <div class="info-group">
+              <h3>Studio</h3>
+              <p>{{ currentPost.studio }}</p>
+            </div>
+          {% endif %}
+          {% if currentPost.projectTeam %}
+            <div class="info-group">
+              <h3>Project Team</h3>
+              <p>{{ currentPost.projectTeam }}</p>
+            </div>
+          {% endif %}
+          {% if currentPost.contribution %}
+            <div class="info-group" style="white-space: "pre-line">
+              <h3>Personal Contribution</h3>
+              <p style="white-space: "pre-line">{{ currentPost.contribution }}</p>
+            </div>
+          {% endif %}
+          {% if currentPost.press %}
+            <div class="info-group">
+              <h3>Press</h3>
+              {% for link in currentPost.press %}
+                <a href="{{ link.url }}" target="_blank"><p>{{ link.title }}</p></a>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+      <aside>
+        {% for image in currentPost.images %}
+          <img src="{{ image.url }}">
+        {% endfor %}
+      </aside>
+    </section>
+  {% endfor %}
+</main>
