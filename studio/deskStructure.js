@@ -3,7 +3,7 @@ import { MdSettings } from "react-icons/md";
 import { MdPerson } from "react-icons/md";
 
 const hiddenDocTypes = listItem =>
-  !['category', 'author', 'post', 'siteSettings'].includes(listItem.getId())
+  !['post', 'siteSettings'].includes(listItem.getId())
 
 export default () =>
   S.list()
@@ -19,20 +19,8 @@ export default () =>
             .documentId('siteSettings')
         ),
       S.listItem()
-        .title('Blog posts')
+        .title('Projects')
         .schemaType('post')
-        .child(S.documentTypeList('post').title('Blog posts')),
-      S.listItem()
-        .title('Authors')
-        .icon(MdPerson)
-        .schemaType('author')
-        .child(S.documentTypeList('author').title('Authors')),
-      S.listItem()
-        .title('Categories')
-        .schemaType('category')
-        .child(S.documentTypeList('category').title('Categories')),
-      // This returns an array of all the document types
-      // defined in schema.js. We filter out those that we have
-      // defined the structure above
+        .child(S.documentTypeList('post').title('Projects')),
       ...S.documentTypeListItems().filter(hiddenDocTypes)
     ])

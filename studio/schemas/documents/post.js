@@ -3,7 +3,7 @@ import {format} from 'date-fns'
 export default {
   name: 'post',
   type: 'document',
-  title: 'Blog Post',
+  title: 'Project',
   fields: [
     {
       name: 'title',
@@ -28,44 +28,48 @@ export default {
       description: 'This can be used to schedule post for publishing'
     },
     {
-      name: 'mainImage',
-      type: 'mainImage',
-      title: 'Main image'
+      title: 'Feature in Jump Nav?',
+      name: 'featureInJumpNav',
+      type: 'boolean',
+      description: 'If you check this option, the project will appear in the jump nav'
     },
     {
-      name: 'excerpt',
-      type: 'excerptPortableText',
-      title: 'Excerpt',
-      description:
-        'This ends up on summary pages, on Google, when people share your post in social media.'
+      name: 'description',
+      type: 'text',
+      title: 'Description',
+      description: 'This is the main description of the project'
     },
     {
-      name: 'authors',
-      title: 'Authors',
+      name: 'studio',
+      type: 'string',
+      title: 'Studio',
+      description: 'This is the studio the work was done for. Leave blank for no studio'
+    },
+    {
+      name: 'projectTeam',
+      type: 'text',
+      title: 'Project Team',
+      description: 'This is the project team. Leave blank for no project team'
+    },
+    {
+      name: 'contribution',
+      type: 'text',
+      title: 'Contribution',
+      description: 'This is where you write your personal contribution. Leave blank for no contribution'
+    },
+    {
+      name: 'press',
       type: 'array',
-      of: [
-        {
-          type: 'authorReference'
-        }
-      ]
+      title: 'Press',
+      of: [{type: 'link'}],
+      description: 'This is where you create links to press.'
     },
     {
-      name: 'categories',
+      name: 'images',
       type: 'array',
-      title: 'Categories',
-      of: [
-        {
-          type: 'reference',
-          to: {
-            type: 'category'
-          }
-        }
-      ]
-    },
-    {
-      name: 'body',
-      type: 'bodyPortableText',
-      title: 'Body'
+      title: 'Images',
+      of: [{type: 'image'}],
+      description: 'This is where the images live! :)'
     }
   ],
   orderings: [
@@ -98,21 +102,4 @@ export default {
       ]
     }
   ],
-  preview: {
-    select: {
-      title: 'title',
-      publishedAt: 'publishedAt',
-      slug: 'slug',
-      media: 'mainImage'
-    },
-    prepare ({title = 'No title', publishedAt, slug = {}, media}) {
-      const dateSegment = format(publishedAt, 'YYYY/MM')
-      const path = `/${dateSegment}/${slug.current}/`
-      return {
-        title,
-        media,
-        subtitle: publishedAt ? path : 'Missing publishing date'
-      }
-    }
-  }
 }
